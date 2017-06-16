@@ -26,10 +26,33 @@
 
 (function(){
 
-  $(function(){
+  $("#addStudentForm").validate({
+    errorClass: "text-danger",
+    rules: {
+      // simple rule, converted to {required:true}
+      first_name: {
+        required: true,
+        minlength: 2
+      },
+      last_name: {
+        required: true,
+        minlength: 2
+      },
+      start_date: {
+        dateISO: true
+      }
+    },
 
-  	//code goes here
+    messages: {
+      last_name: {
+        required: "We need your last name to retrieve your records",
+        minlength: "At least 2 characters required!"
+      },
+      start_date: {
+        dateISO: "Please format your date YYYY-MM-DD"
+      }
+    }
 
-  })
+  });
 
 })();

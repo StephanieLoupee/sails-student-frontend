@@ -40,12 +40,76 @@
  *
  */
 
- (function(){
+(function() {
 
-   $(function(){
+  let first_name = $("#first_name");
+  let last_name = $("#last_name");
+  let start_date = $("#start_date");
+  let gpa = $("#gpa");
+  let sat = $("#sat");
+  let major_id = $("#major_id");
+  let student_id = $("#student_id");
 
-    //code goes here
+  $(function(){
 
-   })
+        $("#updateStudentForm :input").prop("disabled", true);
 
- })();
+        $("#studentId").change(function() {
+          $("#updateStudentForm :input").prop("disabled", false);
+        })
+
+
+        $("#studentId").change(function() {
+          let selectedId = $(this).val();
+          console.log(selectedId);
+
+          let url = ("http://localhost:1337/student" + "/" + selectedId);
+          console.log(url);
+
+            $.get(url, function(data) {
+                console.log(data);
+                first_name.val(data.first_name);
+                last_name.val(data.last_name);
+                start_date.val(data.start_date);
+                gpa.val(data.gpa);
+                sat.val(data.sat);
+                major_id.val(data.major_id);
+                student_id.val(data.student_id);
+            })
+         })
+
+        $("#updateStudentForm").validate({
+        errorClass: "text-danger",
+        rules: {
+          // simple rule, converted to {required:true}
+          first_name: {
+           required: true,
+           minlength: 2
+          },
+          last_name: {
+           required: true,
+           minlength: 2
+          },
+          start_date: {
+           dateISO: true
+          },
+          major_id: {
+            required: true
+          }
+        },
+
+        messages: {
+          last_name: {
+           required: "We need your last name to retrieve your records",
+           minlength: "At least 2 characters required!"
+          },
+          start_date: {
+           dateISO: "Please format your date YYYY-MM-DD"
+          }
+        }
+
+
+      })
+
+ })
+})();
